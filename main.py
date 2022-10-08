@@ -1,7 +1,7 @@
 from pytube import YouTube, Playlist, Search
 
 #MP4 İle İndirme
-def sarkiIndir4(link):
+def VideoIndir(link):
     yt = YouTube(link)
     songname = yt.title
     author = yt.author
@@ -15,15 +15,15 @@ def sarkiIndir4(link):
     songname = songname.replace('"', " ")  #
 
     print(f"{songname} indiriliyor...")
-    stream = yt.streams.first()
-
+    
+    stream = yt.streams.get_by_itag(22)
     stream.download("C:/Users/clskn/Music/Download", filename=f"{songname}.mp4")
     print(f"{songname} başarıyla indirildi")
-def playlistIndir4(link):
+def playlistVideoIndir(link):
     playlist = Playlist(link)
     print(f"{playlist.title} adlı playlist indiriliyor")
     songnumber = len(playlist.video_urls)
-    print(f"Toplamda {songnumber} şarkı bulunmakta")
+    print(f"Toplamda {songnumber} video bulunmakta")
     print("----------------------------------------------------------------------------------")
     for video in playlist.videos:
         songname= video.title
@@ -35,11 +35,12 @@ def playlistIndir4(link):
         songname = songname.replace(":", " ")#
         songname = songname.replace("?", " ")#
         songname = songname.replace('"', " ")#
-        print(f'{songname} adlı şarkı indiriliyor')
-        video.streams.first().download("C:/Users/clskn/Music/Download", filename=f"{songname}.mp4")
-        print(f"{songname} adlı şarkı indirildi")
+        print(f'{songname} adlı video indiriliyor')
+        stream = video.streams.get_by_itag(22)
+        stream.download("C:/Users/clskn/Music/Download", filename=f"{songname}.mp4")
+        print(f"{songname} adlı video indirildi")
         print("----------------------------------------------------------------------------------")
-def arananSarkiyiIndir4(link):
+def arananVideoyuIndir(link):
     s = Search(link)
     ytid = str(s.results[0])
     directid = ytid.find("=") + 1
@@ -58,16 +59,17 @@ def arananSarkiyiIndir4(link):
     songname = songname.replace("?", " ")  #
     songname = songname.replace('"', " ")  #
     print(f"{songname} indiriliyor...")
-    stream = yt.streams.first()
+    stream = yt.streams.get_by_itag(22)
     stream.download("C:/Users/clskn/Music/Download", filename=f"{songname}.mp4")
     print(f"{songname} başarıyla indirildi")
 
 
 #MP3 İle İndirme İşlemleri
-def sarkiIndir3(link):
+def sarkiIndir(link):
     yt = YouTube(link)
     songname = yt.title
     author = yt.author
+    
     songname = songname.replace("/", " ")  #
     songname = songname.replace("|", " ")  #
     songname = songname.replace("*", " ")  #
@@ -79,10 +81,9 @@ def sarkiIndir3(link):
 
     print(f"{songname} indiriliyor...")
     stream = yt.streams.filter(only_audio=True).first()
-
     stream.download("C:/Users/clskn/Music/Download", filename=f"{songname}.mp3")
     print(f"{songname} başarıyla indirildi")
-def playlistIndir3(link):
+def playlistIndir(link):
     playlist = Playlist(link)
     print(f"{playlist.title} adlı playlist indiriliyor")
     songnumber = len(playlist.video_urls)
@@ -103,7 +104,7 @@ def playlistIndir3(link):
         video.streams.first().download("C:/Users/clskn/Music/Download", filename=f"{songname}.mp3")
         print(f"{songname} adlı şarkı indirildi")
         print("----------------------------------------------------------------------------------")
-def arananSarkiyiIndir3(link):
+def arananSarkiyiIndir(link):
     s = Search(link)
     ytid = str(s.results[0])
     directid = ytid.find("=") + 1
@@ -133,8 +134,8 @@ def arananSarkiyiIndir3(link):
 #Veri Girişleri
 url = input("Şarkının linkini ya da ismini giriniz:")
 tov =int(input("Video olarak indirmek için 1'i şarkı olarak indirmek için 2'yi tuşlayın'"))
-pldedector = url.find("playlist")
-linkdedector = url.find("http")
+playlistDedector = url.find("playlist")
+linkDedector = url.find("http")
 
 
 
@@ -144,18 +145,18 @@ linkdedector = url.find("http")
 
 
 #Karar Mekanizması
-if pldedector == -1 and linkdedector != -1 and tov==2:
-    sarkiIndir3(url)
-elif pldedector != -1 and  tov==2:
-    playlistIndir3(url)
-elif pldedector == -1 and linkdedector == -1 and  tov==2:
-    arananSarkiyiIndir3(url)
-elif pldedector == -1 and linkdedector != -1 and tov==1:
-    sarkiIndir4(url)
-elif pldedector != -1 and  tov==1:
-    playlistIndir4(url)
-elif pldedector == -1 and linkdedector == -1 and  tov==1:
-    arananSarkiyiIndir4(url)
+if playlistDedector == -1 and linkDedector != -1 and tov==2:
+    sarkiIndir(url)
+elif playlistDedector != -1 and  tov==2:
+    playlistIndir(url)
+elif playlistDedector == -1 and linkDedector == -1 and  tov==2:
+    arananSarkiyiIndir(url)
+elif playlistDedector == -1 and linkDedector != -1 and tov==1:
+    VideoIndir(url)
+elif playlistDedector != -1 and  tov==1:
+    playlistVideoIndir(url)
+elif playlistDedector == -1 and linkDedector == -1 and  tov==1:
+    arananVideoyuIndir(url)
 
 #ToDo
 #Settings kısmını ayarla
@@ -163,3 +164,4 @@ elif pldedector == -1 and linkdedector == -1 and  tov==1:
 #
 #
 #
+
