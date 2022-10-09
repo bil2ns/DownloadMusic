@@ -1,5 +1,6 @@
-name =input("ss\n")
-if name == "Tuna":
-	print("1")
-else:
-	print("2")
+from pytube import YouTube
+link =input("link")
+yt = YouTube(link)
+metadat = yt.metadata
+print(type(metadat))
+print(metadat)

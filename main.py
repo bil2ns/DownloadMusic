@@ -158,10 +158,10 @@ elif playlistDedector != -1 and  tov==1:
 elif playlistDedector == -1 and linkDedector == -1 and  tov==1:
     arananVideoyuIndir(url)
 
-#ToDo
+ #ToDo
 #Settings kısmını ayarla
-#
-#
-#
+#MetaData Olayı
+#Grafik Arayüzü
+#Kalite Seçimi
 #
 
